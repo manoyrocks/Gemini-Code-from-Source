@@ -1,0 +1,6 @@
+{
+  "name": "Gemini Code From Source",
+  "description": "Architectural breakdown and production-ready code repository generator for autonomous coding agents engineered with Gemini 3, @google/genai SDK, context caching, tool sandboxing, and multimodal workflows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
