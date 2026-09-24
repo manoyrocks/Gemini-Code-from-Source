@@ -62,26 +62,32 @@ export const BookViewer: React.FC<BookViewerProps> = ({ onGoToSimulator, onExplo
         <div className="absolute bottom-0 left-1/3 -mb-10 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-cyan-400 text-xs font-mono mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Reverse-Engineering Claude Code & Rebuilding with Gemini 3 SDK</span>
-          </div>
-
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
             Gemini Code From Source
           </h1>
           <p className="mt-2 text-slate-300 text-sm sm:text-base leading-relaxed">
-            The definitive technical treatise and engineering guide. Modeled after the 18 chapters of{' '}
-            <code className="text-cyan-300 font-mono text-xs bg-slate-800/80 px-1.5 py-0.5 rounded">claude-code-from-source</code>,
-            this book documents how an autonomous terminal coding agent is engineered directly from the official{' '}
+            The definitive technical treatise and engineering guide across 18 comprehensive chapters.
+            This guide documents how an autonomous terminal coding agent is engineered directly from the official{' '}
             <code className="text-cyan-300 font-mono text-xs bg-slate-800/80 px-1.5 py-0.5 rounded">@google/genai</code> SDK,
             Context Caching, Tool Calling, and Multimodal Live APIs.
           </p>
 
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <button
+              onClick={() => {
+                const element = document.getElementById('architecture-book-reader');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/20 transition active:scale-95 cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Launch Autonomous Coding Agent</span>
+            </button>
+            <button
               onClick={() => onGoToSimulator('Fix failing auth tests in src/auth.test.ts')}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white shadow-lg shadow-cyan-500/20 transition active:scale-95"
+              className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white shadow-lg shadow-cyan-500/20 transition active:scale-95 cursor-pointer"
             >
               <span>Launch Live Agent Simulator</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -105,7 +111,7 @@ export const BookViewer: React.FC<BookViewerProps> = ({ onGoToSimulator, onExplo
       </div>
 
       {/* Main Content Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div id="architecture-book-reader" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Chapters Navigation & Search */}
         <div className="lg:col-span-4 space-y-4">
           <div className="bg-[#0F172A] border border-slate-800 rounded-xl p-4 sticky top-20 shadow-xl max-h-[calc(100vh-6rem)] overflow-y-auto">
@@ -222,7 +228,7 @@ export const BookViewer: React.FC<BookViewerProps> = ({ onGoToSimulator, onExplo
                 </div>
                 <div>
                   <div className="text-[11px] font-mono uppercase text-indigo-300 font-semibold tracking-wider">
-                    Claude Code Reference Mapping
+                    Architecture Reference Mapping
                   </div>
                   <div className="text-xs text-slate-300 mt-0.5">
                     {currentChapter.claudeEquivalentTopic}

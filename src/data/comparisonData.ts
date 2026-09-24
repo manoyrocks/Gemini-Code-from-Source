@@ -90,7 +90,7 @@ export const COMPARISON_DATA: ComparisonItem[] = [
     category: 'Loop',
     claudeCodeApproach:
       'Subagent spawning via CLI child tasks or specialized prompt personas managed in sequential queues.',
-    claudeDocsReference: 'claude-code-from-source Chapter 13: Subagents & Task Orchestration',
+    claudeDocsReference: 'Subagents & Task Orchestration Architecture Reference',
     geminiCodeApproach:
       'Hierarchical Coordinator-Worker Swarm utilizing model tiers (e.g., Gemini 3.1 Pro for architectural planning, Gemini 3.8 Flash for parallel file searching and fast diff generation).',
     geminiDocsReference: 'Google Cloud Architecture: Agent Orchestration with Gemini Multi-Tier Models',

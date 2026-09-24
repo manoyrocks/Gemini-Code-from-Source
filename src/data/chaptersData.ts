@@ -12,7 +12,7 @@ export const CHAPTERS_DATA: Chapter[] = [
     readingTimeMinutes: 12,
     summary:
       'Understanding how modern AI coding agents like Claude Code and Gemini Code operate: moving beyond passive chat autocomplete into active, tool-executing autonomous ReAct loops.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 1: How Claude Code Was Born & The Agent Philosophy',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 1: How Claude Code Was Born & The Agent Philosophy',
     keyGeminiSdkApis: ['GoogleGenAI', 'ai.models.generateContent', 'systemInstruction'],
     applyThis: [
       'Treat the coding agent as a state machine where the model is an orchestrator that proposes actions rather than an all-knowing oracle.',
@@ -37,7 +37,7 @@ export const CHAPTERS_DATA: Chapter[] = [
 
 Traditional AI developer assistants operate on an ephemeral single-turn interaction pattern: the developer types a prompt or selects a code snippet, and the model generates text. The engineer remains the manual bridge: copying code, opening files, pasting changes, running tests, deciphering compiler errors, and feeding logs back into the assistant.
 
-An **Autonomous Coding Agent** breaks this barrier by closing the loop. Inspired by the architectural patterns revealed in *Claude Code from Source* and engineered against the Google Gemini API ecosystem, a modern coding agent possesses:
+An **Autonomous Coding Agent** breaks this barrier by closing the loop. Engineered against the Google Gemini API ecosystem and modern autonomous agent architecture principles, an autonomous coding agent possesses:
 1. **Direct Environmental Access**: The ability to inspect repository file trees, read slices of source files, search symbols with regular expressions, and execute shell commands.
 2. **Autonomous Error Recovery**: When a compiler error or unit test failure occurs during an edit, the agent observes the output, diagnoses the root cause, and formulates a follow-up patch without requiring human intervention.
 3. **Structured Tool Contracts**: Rather than outputting conversational prose, the model interacts with the operating system through typed schema definitions (Gemini \`FunctionDeclaration\`).
@@ -87,7 +87,7 @@ export class GeminiAgentOrchestrator {
     readingTimeMinutes: 15,
     summary:
       'Architecting the iterative ReAct loop: managing message turn sequences, handling functionCalls array, streaming responses, and closing the feedback loop with functionResponses.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 2: The ReAct Loop & Turn Mechanics',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 2: The ReAct Loop & Turn Mechanics',
     keyGeminiSdkApis: ['ai.models.generateContent', 'functionCalls', 'FunctionDeclaration', 'Type'],
     applyThis: [
       'In Gemini SDK, functionCalls is an array on GenerateContentResponse. Even when only one tool is invoked, iterate through response.functionCalls cleanly.',
@@ -228,7 +228,7 @@ export async function runGeminiAgentLoop(
     readingTimeMinutes: 14,
     summary:
       'Designing pristine TypeScript schemas using Type from @google/genai, structuring system instructions for zero-hallucination agent behavior, and enforcing strict typing.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 3: System Prompts & Instruction Hierarchies',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 3: System Prompts & Instruction Hierarchies',
     keyGeminiSdkApis: ['FunctionDeclaration', 'Type', 'systemInstruction'],
     applyThis: [
       'Do not use deprecated SchemaType; always import { Type } from "@google/genai".',
@@ -355,7 +355,7 @@ export const AGENT_TOOLS: FunctionDeclaration[] = [
     readingTimeMinutes: 16,
     summary:
       'Engineering a robust shell execution runner: preventing destructive escapes, buffering outputs, handling interactive CLI prompts, timeout safeguards, and ANSI code striping.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 4: Bash Execution & Sandboxing',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 4: Bash Execution & Sandboxing',
     keyGeminiSdkApis: ['functionResponses', 'ai.models.generateContent'],
     applyThis: [
       'Never run commands with unconstrained timeouts; enforce a strict default timeout (e.g. 15,000ms - 30,000ms).',
@@ -443,7 +443,7 @@ export async function executeSandboxedCommand(
     readingTimeMinutes: 14,
     summary:
       'Implementing atomic string replacement, fuzzy matching fallback, unified diff generation, and collision detection to guarantee clean code modifications without data loss.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 5: File Operations & Patch Mechanics',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 5: File Operations & Patch Mechanics',
     keyGeminiSdkApis: ['FunctionDeclaration', 'Type'],
     applyThis: [
       'Enforce unique substring matching: if targetContent appears more than once in the target file, abort and prompt the agent to supply more surrounding lines.',
@@ -555,7 +555,7 @@ export async function applySurgicalPatch(
     readingTimeMinutes: 13,
     summary:
       'Unleashing Gemini 3 Hybrid Tooling: running server-side googleSearch, urlContext, and codeExecution side-by-side with local file editing functions via includeServerSideToolInvocations: true.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 6: Extensibility & External Integrations',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 6: Extensibility & External Integrations',
     keyGeminiSdkApis: ['googleSearch', 'codeExecution', 'toolConfig', 'includeServerSideToolInvocations'],
     applyThis: [
       'Whenever mixing functionDeclarations with googleSearch or codeExecution in Gemini 3, ALWAYS set toolConfig: { includeServerSideToolInvocations: true }.',
@@ -637,7 +637,7 @@ export async function executeHybridTurn(
     readingTimeMinutes: 16,
     summary:
       'Deep dive into Gemini Context Caching: preloading repository ASTs, system instructions, and file trees into persistent server-side caches, cutting token consumption by up to 75%.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 7: Token Optimization & Prompt Caching',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 7: Token Optimization & Prompt Caching',
     keyGeminiSdkApis: ['ai.caches.create', 'ai.caches.get', 'cachedContent'],
     applyThis: [
       'Gemini context caching minimum threshold is 32,768 tokens. Use it on medium-to-large codebases with substantial file trees.',
@@ -721,7 +721,7 @@ export class RepositoryCacheManager {
     readingTimeMinutes: 13,
     summary:
       'Leveraging Gemini native million-token capacity: when to rely on long-context retrieval versus when to apply AST-based compaction and history pruning.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 8: Conversation History & Context Compaction',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 8: Conversation History & Context Compaction',
     keyGeminiSdkApis: ['usageMetadata', 'cachedContentTokenCount', 'promptTokenCount'],
     applyThis: [
       'Monitor usageMetadata.promptTokenCount on every turn to detect sudden context spikes.',
@@ -775,7 +775,7 @@ export function evaluateContextCompactionNeed(metrics: TokenMetrics): boolean {
     readingTimeMinutes: 14,
     summary:
       'Techniques for lossless context compression: AST folding, stripping intermediate compiler logs, and rolling summary checkpoints.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 9: Memory Compaction & State Machines',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 9: Memory Compaction & State Machines',
     keyGeminiSdkApis: ['ai.models.generateContent', 'systemInstruction'],
     applyThis: [
       'Replace old tool outputs with concise one-line markers once their outcome has been processed.',
@@ -838,7 +838,7 @@ A production Gemini Code agent applies **Milestone Compaction**:
     readingTimeMinutes: 15,
     summary:
       'Exploiting Gemini native multimodal vision: sending UI error screenshots, Figma designs, and browser canvas captures directly into the agent loop to diagnose CSS, layout, and component bugs.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 10: Visual Debugging & Screenshots',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 10: Visual Debugging & Screenshots',
     keyGeminiSdkApis: ['inlineData', 'mimeType', 'ai.models.generateContent'],
     applyThis: [
       'Pass image parts directly alongside text prompts in contents: { parts: [imagePart, textPart] }.',
@@ -911,7 +911,7 @@ Component Source:
     readingTimeMinutes: 18,
     summary:
       'Building the ultimate developer companion: bidirectional low-latency voice pairing over WebSockets with 16kHz PCM audio, extended thinking, and live tool invocation.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 11: Future Modalities & Voice Prototypes',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 11: Future Modalities & Voice Prototypes',
     keyGeminiSdkApis: ['ai.live.connect', 'Modality.AUDIO', 'sendRealtimeInput', 'gemini-3.8-live'],
     applyThis: [
       'Live API requires raw 16-bit PCM little-endian audio at 16kHz for input, and outputs 24kHz audio.',
@@ -995,7 +995,7 @@ export async function createLivePairProgrammingSession(
     readingTimeMinutes: 12,
     summary:
       'Autonomous regression testing: taking before-and-after headless screenshots with Playwright, feeding both images to Gemini, and verifying visual fidelity.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 12: Automated Quality Assurance',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 12: Automated Quality Assurance',
     keyGeminiSdkApis: ['ai.models.generateContent', 'inlineData'],
     applyThis: [
       'Feed both before and after screenshots into a single generateContent call with a structured comparison schema.',
@@ -1055,7 +1055,7 @@ export async function verifyVisualDiff(
     readingTimeMinutes: 17,
     summary:
       'Designing hierarchical agent swarms: a Coordinator agent delegating tasks to specialized subagents (Explorer, Coder, Reviewer, Security Auditor) with model tier optimization.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 13: Subagents & Task Delegation',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 13: Subagents & Task Delegation',
     keyGeminiSdkApis: ['gemini-3.1-pro-preview', 'gemini-3.8-flash', 'ai.models.generateContent'],
     applyThis: [
       'Use high-reasoning Gemini 3.1 Pro for the Coordinator/Planner and cost-efficient Gemini 3.8 Flash for high-volume worker subagents.',
@@ -1135,7 +1135,7 @@ export class SwarmCoordinator {
     readingTimeMinutes: 14,
     summary:
       'Running non-blocking background tasks: executing comprehensive test suites concurrently while an agent investigates secondary modules.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 14: Parallel Execution & Concurrency',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 14: Parallel Execution & Concurrency',
     keyGeminiSdkApis: ['ai.models.generateContent', 'FunctionDeclaration'],
     applyThis: [
       'Return a taskId immediately when a long-running background task begins.',
@@ -1196,7 +1196,7 @@ export class BackgroundTaskManager {
     readingTimeMinutes: 13,
     summary:
       'Standardizing message passing between agents using JSON Schema output contracts and typed message buses.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 15: Agent Protocols & Message Passing',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 15: Agent Protocols & Message Passing',
     keyGeminiSdkApis: ['responseMimeType', 'responseSchema', 'Type'],
     applyThis: [
       'Enforce responseMimeType: "application/json" and strict responseSchema when subagents communicate with each other.',
@@ -1266,7 +1266,7 @@ export async function runStructuredAuditSubagent(ai: GoogleGenAI, codeDiff: stri
     readingTimeMinutes: 16,
     summary:
       'Engineering the developer terminal experience: interactive spinners, diff colorization, keyboard shortcuts, permission prompt overlays, and streaming terminal UI.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 16: Terminal UI, Ink & React CLI',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 16: Terminal UI, Ink & React CLI',
     keyGeminiSdkApis: ['ai.models.generateContentStream'],
     applyThis: [
       'Render live streaming thoughts using an animated ink spinner to give developers real-time feedback.',
@@ -1327,7 +1327,7 @@ export function TerminalAgentStatus({
     readingTimeMinutes: 15,
     summary:
       'Architecting browser-based coding agents: Server-Sent Events (SSE) for streaming thoughts, WebSocket channels for live terminal output, and session persistence.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 17: Cloud Infrastructure & Web Interfaces',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 17: Cloud Infrastructure & Web Interfaces',
     keyGeminiSdkApis: ['ai.models.generateContentStream', 'HttpOptions'],
     applyThis: [
       'Always proxy Gemini API requests through backend server endpoints (/api/gemini/*) to keep API credentials secure.',
@@ -1403,7 +1403,7 @@ sseRouter.post("/stream-task", async (req, res) => {
     readingTimeMinutes: 16,
     summary:
       'Fortifying autonomous coding agents: defending against indirect prompt injection in malicious source files, rate limiting, and permission matrices.',
-    claudeEquivalentTopic: 'claude-code-from-source Ch 18: Security, Trust Boundaries & Hardening',
+    claudeEquivalentTopic: 'Architecture Blueprint Ch 18: Security, Trust Boundaries & Hardening',
     keyGeminiSdkApis: ['systemInstruction', 'toolConfig'],
     applyThis: [
       'Treat all file contents read from disk as untrusted data that may contain indirect prompt injections (e.g. comments saying "IGNORE ALL PREVIOUS INSTRUCTIONS").',

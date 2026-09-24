@@ -45,8 +45,7 @@ export const ComparisonMatrix: React.FC = () => {
           How Claude Code Was Engineered vs. How Gemini Code Is Engineered
         </h2>
         <p className="mt-2 text-slate-300 text-xs sm:text-sm leading-relaxed max-w-3xl">
-          A side-by-side technical evaluation of the architectural patterns documented in{' '}
-          <code className="text-cyan-300 font-mono text-xs bg-slate-800 px-1 py-0.5 rounded">claude-code-from-source</code>{' '}
+          A side-by-side technical evaluation of modern autonomous coding agent architectural patterns
           compared to our autonomous agent engineered using Google Gemini 3 and the modern{' '}
           <code className="text-cyan-300 font-mono text-xs bg-slate-800 px-1 py-0.5 rounded">@google/genai</code> SDK.
         </p>
