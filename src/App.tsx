@@ -17,7 +17,9 @@ import { GenAI101 } from './components/GenAI101';
 import { GeminiSparkWork } from './components/GeminiSparkWork';
 import { GeminiAIStudio } from './components/GeminiAiStudio';
 import { AgenticAI } from './components/AgenticAI';
+import { AppDocumentation } from './components/AppDocumentation';
 import { ModuleNavigationFooter, APP_MODULE_SEQUENCE } from './components/ModuleNavigationFooter';
+import { GitHubDeployModal } from './components/GitHubDeployModal';
 import { PRODUCTION_REPOSITORIES } from './data/repositoriesData';
 import JSZip from 'jszip';
 import {
@@ -35,6 +37,7 @@ export default function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('genai-101');
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const [exportSuccess, setExportSuccess] = useState<boolean>(false);
+  const [isDeployModalOpen, setIsDeployModalOpen] = useState<boolean>(false);
   const [currentTheme, setCurrentTheme] = useState<ThemeId>(() => {
     try {
       const saved = localStorage.getItem('gemini_code_theme') as ThemeId;
@@ -117,8 +120,16 @@ export default function App() {
         currentView={currentView}
         onViewChange={setCurrentView}
         onQuickDownload={handleQuickDownload}
+        onOpenDeployModal={() => setIsDeployModalOpen(true)}
         currentTheme={currentTheme}
         onThemeChange={setCurrentTheme}
+      />
+
+      {/* GitHub Pages Deploy Modal */}
+      <GitHubDeployModal
+        isOpen={isDeployModalOpen}
+        onClose={() => setIsDeployModalOpen(false)}
+        onQuickDownload={handleQuickDownload}
       />
 
       {/* Main View Display */}
@@ -159,6 +170,15 @@ export default function App() {
         {currentView === 'code' && <CodeExplorer />}
         {currentView === 'comparison' && <ComparisonMatrix />}
         {currentView === 'live' && <LivePlayground />}
+        {currentView === 'docs' && (
+          <AppDocumentation
+            onNavigate={(view) => {
+              setCurrentView(view);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenDeployModal={() => setIsDeployModalOpen(true)}
+          />
+        )}
 
         {/* Universal Module Progression Card on EVERY module */}
         <ModuleNavigationFooter
@@ -247,6 +267,16 @@ export default function App() {
               className="hover:text-cyan-400 transition cursor-pointer"
             >
               Claude vs Gemini
+            </button>
+            <span className="text-slate-700">·</span>
+            <button
+              onClick={() => {
+                setCurrentView('docs');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="text-cyan-400 hover:text-cyan-300 font-semibold transition cursor-pointer"
+            >
+              Docs &amp; Guides
             </button>
           </div>
         </div>

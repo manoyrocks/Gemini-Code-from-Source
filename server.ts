@@ -4,6 +4,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI, Type, FunctionDeclaration } from '@google/genai';
+import { exec } from 'child_process';
+import util from 'util';
+
+const execAsync = util.promisify(exec);
 
 dotenv.config();
 
@@ -150,6 +154,48 @@ app.post('/api/gemini/generate', async (req, res) => {
     return res.json({ text: response.text });
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
+  }
+});
+
+// Push repository directly to GitHub to trigger GitHub Pages workflow
+app.post('/api/git-push', async (req, res) => {
+  try {
+    const {
+      token,
+      repo = 'https://github.com/manoyrocks/Gemini-Code-from-Source.git',
+      branch = 'main',
+    } = req.body;
+
+    if (!token || typeof token !== 'string' || token.trim().length === 0) {
+      return res.status(400).json({
+        error: 'GitHub Personal Access Token (PAT) is required to push to GitHub.',
+      });
+    }
+
+    const cleanToken = token.trim();
+    let authUrl = repo.trim();
+    if (authUrl.startsWith('https://github.com/')) {
+      const repoPath = authUrl.replace('https://github.com/', '');
+      authUrl = `https://${cleanToken}@github.com/${repoPath}`;
+    }
+
+    const { stdout, stderr } = await execAsync(`git push "${authUrl}" ${branch}`);
+
+    return res.json({
+      success: true,
+      message: 'Successfully pushed commits to GitHub! The GitHub Actions workflow is now triggered.',
+      repoUrl: repo.trim(),
+      pagesUrl: 'https://manoyrocks.github.io/Gemini-Code-from-Source/',
+      details: stdout || stderr,
+    });
+  } catch (error: any) {
+    const rawMsg = error?.message || 'Git push failed';
+    const cleanToken = req.body?.token?.trim();
+    const sanitized = cleanToken ? rawMsg.split(cleanToken).join('***') : rawMsg;
+    console.error('Git push error:', sanitized);
+    return res.status(500).json({
+      error: sanitized,
+    });
   }
 });
 

@@ -99,6 +99,14 @@ export const APP_MODULE_SEQUENCE: ModuleStep[] = [
     shortName: 'Live Playground',
     badge: 'Module 11',
     tagline: 'Interactive playground & live agent testbed'
+  },
+  {
+    id: 'docs',
+    moduleNumber: 12,
+    name: 'Docs & How-to Guides',
+    shortName: 'Docs & Guides',
+    badge: 'Module 12',
+    tagline: 'Complete system manual, walkthroughs, API reference & deployment guides'
   }
 ];
 

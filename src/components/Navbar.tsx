@@ -16,13 +16,15 @@ import {
   ExternalLink,
   Zap,
   Smartphone,
-  Bot
+  Bot,
+  Rocket
 } from 'lucide-react';
 
 interface NavbarProps {
   currentView: ViewMode;
   onViewChange: (view: ViewMode) => void;
   onQuickDownload?: () => void;
+  onOpenDeployModal?: () => void;
   currentTheme: ThemeId;
   onThemeChange: (theme: ThemeId) => void;
 }
@@ -40,6 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   onViewChange,
   onQuickDownload,
+  onOpenDeployModal,
   currentTheme,
   onThemeChange,
 }) => {
@@ -147,6 +150,14 @@ export const Navbar: React.FC<NavbarProps> = ({
       icon: <Scale className="w-4 h-4 text-purple-400" />,
       badge: 'SDK Comparison',
       badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+    },
+    {
+      id: 'docs',
+      label: 'Docs & How-to Guides',
+      sublabel: 'Complete system manual, walkthroughs, API reference & deployment guides',
+      icon: <BookOpen className="w-4 h-4 text-cyan-300" />,
+      badge: 'User Manual',
+      badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
     },
   ];
 
@@ -314,17 +325,44 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right Action: Docs link & Color Theme Selector at top right corner */}
           <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* In-App System Manual & How-to Guides */}
+            <button
+              onClick={() => onViewChange('docs')}
+              className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                currentView === 'docs'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                  : 'text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60'
+              }`}
+              title="Application Documentation & How-to Guides"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="hidden sm:inline">User Guides</span>
+              <span className="sm:hidden">Guides</span>
+            </button>
+
             <a
               href="https://ai.google.dev/gemini-api/docs"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition"
+              className="hidden xl:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition"
               title="Official Google GenAI SDK Documentation"
             >
               <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="hidden xl:inline">Google GenAI Docs</span>
-              <span className="xl:hidden">Docs</span>
+              <span>Google GenAI Docs</span>
             </a>
+
+            {/* Deploy to GitHub Pages Modal Trigger */}
+            {onOpenDeployModal && (
+              <button
+                onClick={onOpenDeployModal}
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-sm shadow-cyan-500/25 border border-cyan-400/30 transition cursor-pointer"
+                title="Deploy repository to GitHub Pages"
+              >
+                <Rocket className="w-3.5 h-3.5 text-white animate-pulse" />
+                <span className="hidden sm:inline">Deploy to GitHub Pages</span>
+                <span className="sm:hidden">Deploy</span>
+              </button>
+            )}
 
             {/* Color Themes Selector at the top right corner */}
             <ThemeSelector

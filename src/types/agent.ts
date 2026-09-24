@@ -9,7 +9,8 @@ export type ViewMode =
   | 'code'
   | 'comparison'
   | 'live'
-  | 'ai-softeng';
+  | 'ai-softeng'
+  | 'docs';
 
 export type ThemeId = 'dark' | 'bark' | 'light' | 'ambient' | 'light-green' | 'light-pink';
 
